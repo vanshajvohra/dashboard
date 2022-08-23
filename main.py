@@ -4,8 +4,13 @@ from flask import Flask, render_template
 from flask_wtf import FlaskForm
 from wtforms import StringField, SubmitField
 from wtforms.validators import DataRequired
+from flask_sqlalchemy import SQLAlchemy
+from datetime import datetime
 
+# Flask instance
 app = Flask(__name__)
+app.config['SECRET_KEY'] = 'pineapple'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///users.db'
 
 @app.route("/")
 
@@ -28,8 +33,15 @@ class firstname(FlaskForm):
     submit = SubmitField("Submit")
 
 # Create name page
-@app.route('/name', methods = ['GET', 'POST'])
+@app.route("/name", methods = ['GET', 'POST'])
 def name():
     name = None
-    form = firstname
-    return render_template("firstname.html")
+    form = firstname()
+    # Validating a form
+    if form.validate_on_submit():
+        name = form.name.data
+
+    return render_template("firstname.html", name = name, form = form)
+
+
+
