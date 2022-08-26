@@ -15,7 +15,7 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///users.db'
 @app.route("/")
 
 def hello_world():
-    return render_template("index.html")
+    return render_template("account.html")
 
 @app.route("/user/<name>")
 
